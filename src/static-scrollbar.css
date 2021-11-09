@@ -1,0 +1,25 @@
+.static-scrollbar {
+  overflow: auto;
+  will-change: scroll-position;
+}
+
+/* width */
+.static-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+.static-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+.static-scrollbar::-webkit-scrollbar-thumb {
+  background: #c9c9c9;
+}
+
+/* Handle on hover */
+.static-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #afafaf;
+}

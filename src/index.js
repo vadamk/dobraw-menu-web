@@ -4,10 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ChakraProvider } from "@chakra-ui/react"
+
+import { extendTheme } from "@chakra-ui/react"
+import { mode } from "@chakra-ui/theme-tools"
+
+const theme = extendTheme({
+  colors: {
+    bg: mode("gray.800", "whiteAlpha.900"),
+  }
+})
+
 ReactDOM.render(
-  <React.StrictMode>
+  <ChakraProvider theme={theme}>
     <App />
-  </React.StrictMode>,
+  </ChakraProvider>,
   document.getElementById('root')
 );
 
