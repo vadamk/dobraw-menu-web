@@ -9,73 +9,55 @@ import {
   Text
 } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
-import { motion } from "framer-motion";
 
-const Dish = ({ dish, isMobile, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
+const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
   return (
-    <Stack
-      pb={4}
-      w="full"
-      as={isMobile ? motion.div : undefined}
-      layoutId={`body-${dish.id}`}
-    >
+    <Stack pb={4} w="full" layoutId={`body-${dish.id}`}>
       <AspectRatio
         ratio={1}
-        p={isDetail && 4}
         cursor="pointer"
-        as={isMobile ? motion.div : undefined}
         layoutId={`aspectRatio-${dish.id}`}
         onClick={onOpen}
         pointerEvents={isDetail ? "none" : "auto"}
       >
         <Image
           w="full"
-          as={isMobile ? motion.img : undefined}
           layoutId={`img-${dish.id}`}
           src={dish.imageUrl}
           alt={dish.title}
           userSelect="none"
         />
       </AspectRatio>
-      <Box
-        as={isMobile ? motion.div : undefined}
-        layoutId={`price-container-${dish.id}`}
-      >
-        <Stack spacing="1" direction="row" alignItems="flex-end" pt={2} px={isDetail ? 4 : 0}>
+      <Box layoutId={`price-container-${dish.id}`}>
+        <Stack
+          spacing="1"
+          direction="row"
+          alignItems="flex-end"
+          pt={2}
+          px={isDetail && 6}
+        >
           <Text fontSize="4xl" lineHeight="1">
             {dish.price}
           </Text>
           <Text fontSize="lg">добра</Text>
           <Spacer />
-          {!inCart &&
-            <Button colorScheme="green" onClick={onCartToggle}>
-              В корзину
-            </Button>}
-          {inCart &&
-            <Button colorScheme="red" onClick={onCartToggle}>
-              Убрать
-            </Button>}
+          <Button colorScheme={inCart ? "red" : "green"} onClick={onCartToggle}>
+            {inCart ? "Убрать" : "В корзину"}
+          </Button>
         </Stack>
         <Box
-          pt={4}
-          as={isMobile ? motion.div : undefined}
           layoutId={`title-${dish.id}`}
           cursor="pointer"
-          p={isDetail && 4}
+          px={isDetail && 6}
+          pt={isDetail ? 6 : 4}
           onClick={onOpen}
         >
-          <Heading size="md">
+          <Heading size={isDetail ? "xl" : "md"}>
             {dish.title}
           </Heading>
         </Box>
         {isDetail &&
-          <Stack
-            as={isMobile ? motion.div : undefined}
-            pt={4}
-            p={isDetail && 4}
-            spacing="1"
-            direction="column"
-          >
+          <Stack pt={4} p={isDetail && 6} spacing="1" direction="column">
             <Text fontSize="lg">
               После вкусного обеда 🍜 ждём Вас на ✨ Будда Баре ✨ на чашечку кофе
               или чая 🫖, и конечно же, мы хотим Вас угостить нашими

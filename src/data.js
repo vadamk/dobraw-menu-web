@@ -55,3 +55,46 @@ export const data = [
     price: 5
   },
 ];
+
+export const dataTags = [
+  {
+    id: 2,
+    name: "Raw",
+  },
+  {
+    id: 3,
+    name: "Vegan",
+  },
+  {
+    id: 4,
+    name: "Завтрак",
+  },
+  {
+    id: 5,
+    name: "Салат",
+  },
+  {
+    id: 6,
+    name: "Пицца",
+  },
+  {
+    id: 7,
+    name: "Фаст фуд",
+  },
+  {
+    id: 8,
+    name: "Паста, нудлс",
+  },
+  {
+    id: 9,
+    name: "Супы",
+  },
+  {
+    id: 10,
+    name: "Суши",
+  },
+  {
+    id: 11,
+    name: "Боулы",
+  },
+]

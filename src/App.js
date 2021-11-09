@@ -1,21 +1,18 @@
 import React from "react";
-import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import { Center, Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
 
 import Dish from "./components/Dish";
 import CartButton from "./components/CartButton";
-import DishModal from "./components/DishModal";
-import { data } from "./data";
+import { data, dataTags } from "./data";
 import Cart from "./components/Cart";
 import DishDesktopModal from "./components/DishDesktopModal";
 import { useDisclosure } from "@chakra-ui/hooks";
-import { useMediaQuery } from "@chakra-ui/react"
+import Filter from "./components/Filter";
+
 function App() {
   const [selectedDishId, setSelectedDishId] = React.useState(null);
   const [cartDishIds, setCartDishIds] = React.useState([]);
-
-  const [isLargerThan560] = useMediaQuery("(min-width: 560px)")
-
+  const [selectedTagIds, setSelectedTagIds] = React.useState([]);
   const cartModal = useDisclosure();
 
   const selectedDish = React.useMemo(
@@ -30,23 +27,41 @@ function App() {
     [cartDishIds]
   );
 
-  const handleClean = React.useCallback(dish => {
-    setCartDishIds([]);
-    cartModal.onClose()
-  }, [cartModal]);
+  const handleClean = React.useCallback(
+    dish => {
+      setCartDishIds([]);
+      cartModal.onClose();
+    },
+    [cartModal]
+  );
 
-  const handleCartToggle = React.useCallback(dish => () => {
-    setCartDishIds(
-      val =>
-        !val.includes(dish.id)
-          ? [...val, dish.id]
-          : val.filter(id => id !== dish.id)
-    );
-  }, []);
+  const handleCartToggle = React.useCallback(
+    dish => () => {
+      setCartDishIds(
+        val =>
+          !val.includes(dish.id)
+            ? [...val, dish.id]
+            : val.filter(id => id !== dish.id)
+      );
+    },
+    []
+  );
 
   const handleSelect = React.useCallback(
     dish => () => {
       setSelectedDishId(val => (val ? null : dish.id));
+    },
+    []
+  );
+
+  const handleSelectTag = React.useCallback(
+    tag => () => {
+      setSelectedTagIds(
+        val =>
+          !val.includes(tag.id)
+            ? [...val, tag.id]
+            : val.filter(id => id !== tag.id)
+      );
     },
     []
   );
@@ -61,56 +76,55 @@ function App() {
     },
     [cartDishIds]
   );
+
+  const handleClearFilter = React.useCallback(
+    () => {
+      setSelectedTagIds([])
+    },
+    []
+  );
+
   return (
-    <AnimateSharedLayout type="crossfade">
-      <Container p={4} maxW="container.xl">
-        <Center>
-          <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
-            {data.map(dish =>
-              <WrapItem
-                key={dish.id}
-                maxW="sm"
-                as={motion.div}
-                layoutId={dish.id}
-              >
-                <Dish
-                  dish={dish}
-                  inCart={isSelected(dish)}
-                  onOpen={handleSelect(dish)}
-                  onCartToggle={handleCartToggle(dish)}
-                />
-              </WrapItem>
-            )}
-          </SimpleGrid>
-        </Center>
-        {!isLargerThan560 && (
-          <AnimatePresence>
-            {selectedDish &&
-              <DishModal
-                dish={selectedDish}
-                inCart={isSelected(selectedDish)}
-                onClose={handleClose}
-                onCartToggle={handleCartToggle(selectedDish)}
-              />}
-          </AnimatePresence>
-        )}
-        {selectedDish && isLargerThan560 && (
-          <DishDesktopModal
-            dish={selectedDish}
-            inCart={isSelected(selectedDish)}
-            onClose={handleClose}
-            onCartToggle={handleCartToggle(selectedDish)}
-          />
-        )}
-        <Cart
-          dishes={cartDishes}
-          onRemove={handleCartToggle}
-          onClean={handleClean}
-          {...cartModal}
-        />
-        <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />
-      </Container>
-    </AnimateSharedLayout>
+    <Container p={4} maxW="container.xl">
+      <Filter
+        tags={dataTags}
+        selectedTagIds={selectedTagIds}
+        onSelect={handleSelectTag}
+        onClear={handleClearFilter}
+      />
+      <Center>
+        <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
+          {data.map(dish =>
+            <WrapItem
+              key={dish.id}
+              maxW="sm"
+              layoutId={dish.id}
+            >
+              <Dish
+                dish={dish}
+                inCart={isSelected(dish)}
+                onOpen={handleSelect(dish)}
+                onCartToggle={handleCartToggle(dish)}
+              />
+            </WrapItem>
+          )}
+        </SimpleGrid>
+      </Center>
+      {selectedDish &&
+        <DishDesktopModal
+          dish={selectedDish}
+          inCart={isSelected(selectedDish)}
+          onClose={handleClose}
+          onCartToggle={handleCartToggle(selectedDish)}
+        />}
+      <Cart
+        dishes={cartDishes}
+        onRemove={handleCartToggle}
+        onClean={handleClean}
+        {...cartModal}
+      />
+      <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />
+    </Container>
   );
 }
 
