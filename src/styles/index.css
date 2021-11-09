@@ -18,3 +18,7 @@ code {
 .pagination > *{
   padding: 4px;
 }
+
+.active > a > button{
+  background: var(--chakra-colors-green-200);
+}

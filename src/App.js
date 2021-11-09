@@ -104,6 +104,7 @@ function App() {
       {pagesCount > 1 && (
         <Center py={6}>
           <Pagination
+            page={currentPage}
             count={pagesCount}
             onChange={handlePageChange}
           />
