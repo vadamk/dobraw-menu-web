@@ -1,37 +1,39 @@
 import React from "react";
-import { Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
+import { Center, Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { Spinner } from "@chakra-ui/react";
 
 import Dish from "./components/Dish";
 import CartButton from "./components/CartButton";
 import Cart from "./components/Cart";
 import DishDesktopModal from "./components/DishDesktopModal";
-import { useDisclosure } from "@chakra-ui/hooks";
 import Filter from "./components/Filter";
 
-import useDishes from './hooks/useDishes';
+import useDishes from "./hooks/useDishes";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [selectedDish, setSelectedDish] = React.useState(null);
-  const [cartDishIds, setCartDishIds] = React.useState([]);
+  const [cartDishes, setCartDishes] = React.useState([]);
   const [selectedTagIds, setSelectedTagIds] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(0);
   const cartModal = useDisclosure();
-  
-  const dishes = useDishes({ tagIds: selectedTagIds })
 
-  const cartDishes = React.useMemo(
-    () => dishes.items.filter(d => cartDishIds.includes(d.id)),
-    [cartDishIds, dishes]
-  );
+  const dishes = useDishes({
+    start: currentPage * 5,
+    limit: 5,
+    tagIds: selectedTagIds
+  });
 
-  const cleanCart = React.useCallback(dish => setCartDishIds([]), []);
+  const cleanCart = React.useCallback(dish => setCartDishes([]), []);
 
   const toggleCart = React.useCallback(
     dish => () => {
-      setCartDishIds(
+      setCartDishes(
         val =>
-          !val.includes(dish.id)
-            ? [...val, dish.id]
-            : val.filter(id => id !== dish.id)
+          !val.map(d => d.id).includes(dish.id)
+            ? [...val, dish]
+            : val.filter(d => d.id !== dish.id)
       );
     },
     []
@@ -44,6 +46,7 @@ function App() {
 
   const selectFilterTag = React.useCallback(
     tag => () => {
+      setCurrentPage(0)
       setSelectedTagIds(
         val =>
           !val.includes(tag.id)
@@ -58,13 +61,21 @@ function App() {
     setSelectedDish(null);
   }, []);
 
-  const isInCart = React.useCallback(dish => cartDishIds.includes(dish.id), [
-    cartDishIds
-  ]);
+  const isInCart = React.useCallback(
+    dish => cartDishes.map(d => d.id).includes(dish.id),
+    [cartDishes]
+  );
 
   const clearFilter = React.useCallback(() => {
     setSelectedTagIds([]);
   }, []);
+
+  const handlePageChange = React.useCallback(({ selected }) => {
+    window.scrollTo(0, 0);
+    setCurrentPage(selected);
+  }, []);
+
+  const pagesCount = Math.ceil(dishes.count / 5)
 
   return (
     <Container p={4} maxW="container.xl">
@@ -73,6 +84,11 @@ function App() {
         onSelect={selectFilterTag}
         onClear={clearFilter}
       />
+      {dishes.isValidating &&
+        !dishes.items.length &&
+        <Center py={6}>
+          <Spinner color="red.500" />
+        </Center>}
       <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
         {dishes.items.map(dish =>
           <WrapItem key={dish.id}>
@@ -85,6 +101,14 @@ function App() {
           </WrapItem>
         )}
       </SimpleGrid>
+      {pagesCount > 1 && (
+        <Center py={6}>
+          <Pagination
+            count={pagesCount}
+            onChange={handlePageChange}
+          />
+        </Center>
+      )}
       {selectedDish &&
         <DishDesktopModal
           dish={selectedDish}
