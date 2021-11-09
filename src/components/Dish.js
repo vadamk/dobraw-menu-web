@@ -23,6 +23,7 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
         ratio={1}
         cursor="pointer"
         onClick={onOpen}
+        pointerEvents={isDetail ? "none" : "auto"}
       >
         <Image
           w="full"
