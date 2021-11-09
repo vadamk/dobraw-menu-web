@@ -41,7 +41,7 @@ const Dish = ({ dish, isMobile, isDetail, isSelected, inCart, onOpen, onCartTogg
         as={isMobile ? motion.div : undefined}
         layoutId={`price-container-${dish.id}`}
       >
-        <Stack spacing="1" direction="row" alignItems="flex-end" pt1={2} px={isDetail ? 4 : 0}>
+        <Stack spacing="1" direction="row" alignItems="flex-end" pt={2} px={isDetail ? 4 : 0}>
           <Text fontSize="4xl" lineHeight="1">
             {dish.price}
           </Text>
