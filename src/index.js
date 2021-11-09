@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import SWRProvider from './SWRProvider';
 
 const theme = extendTheme({
   config: {
@@ -15,7 +16,9 @@ const theme = extendTheme({
 
 ReactDOM.render(
   <ChakraProvider theme={theme}>
-    <App />
+    <SWRProvider>
+      <App />
+    </SWRProvider>
   </ChakraProvider>,
   document.getElementById('root')
 );

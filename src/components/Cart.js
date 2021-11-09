@@ -28,7 +28,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   const copyInvitationLink = React.useCallback(() => {
 
     if (navigator.clipboard) {
-      navigator.clipboard?.writeText(dishes.map(d => d.title).join('\n'));
+      navigator.clipboard?.writeText(dishes.map(d => d.name).join('\n'));
 
       toast({
         title: "Cкопировано в буфер обмена",
@@ -71,7 +71,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
                     icon={<SmallCloseIcon fontSize="md" />}
                     onClick={onRemove(dish)}
                   />
-                  <Text fontWeight={600}>{dish.title}</Text>
+                  <Text fontWeight={600}>{dish.name}</Text>
                   <Spacer />
                   <Text minW="16">{dish.price} добра</Text>
                 </Stack>

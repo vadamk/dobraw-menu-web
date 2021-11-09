@@ -11,6 +11,8 @@ import {
 import { Button } from "@chakra-ui/button";
 import { MdOutlineRemoveShoppingCart, MdOutlineShoppingCart } from "react-icons/md";
 
+import { getDishThumbnailURL } from '../utils'
+
 const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
   return (
     <Stack pb={4} w="full">
@@ -22,7 +24,7 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
       >
         <Image
           w="full"
-          src={dish.imageUrl}
+          src={getDishThumbnailURL(dish)}
           alt={dish.title}
           userSelect="none"
         />
@@ -55,7 +57,7 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
           onClick={onOpen}
         >
           <Heading size={isDetail ? "xl" : "md"}>
-            {dish.title}
+            {dish.name}
           </Heading>
         </Box>
         {isDetail &&

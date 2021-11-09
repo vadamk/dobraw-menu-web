@@ -3,21 +3,24 @@ import { Center, Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
 
 import Dish from "./components/Dish";
 import CartButton from "./components/CartButton";
-import { data, dataTags } from "./data";
 import Cart from "./components/Cart";
 import DishDesktopModal from "./components/DishDesktopModal";
 import { useDisclosure } from "@chakra-ui/hooks";
 import Filter from "./components/Filter";
+
+import useDishes from './hooks/useDishes';
 
 function App() {
   const [selectedDish, setSelectedDish] = React.useState(null);
   const [cartDishIds, setCartDishIds] = React.useState([]);
   const [selectedTagIds, setSelectedTagIds] = React.useState([]);
   const cartModal = useDisclosure();
+  
+  const dishes = useDishes({ tagIds: selectedTagIds })
 
   const cartDishes = React.useMemo(
-    () => data.filter(d => cartDishIds.includes(d.id)),
-    [cartDishIds]
+    () => dishes.filter(d => cartDishIds.includes(d.id)),
+    [cartDishIds, dishes]
   );
 
   const cleanCart = React.useCallback(dish => setCartDishIds([]), []);
@@ -66,25 +69,22 @@ function App() {
   return (
     <Container p={4} maxW="container.xl">
       <Filter
-        tags={dataTags}
         selectedTagIds={selectedTagIds}
         onSelect={selectFilterTag}
         onClear={clearFilter}
       />
-      <Center>
-        <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
-          {data.map(dish =>
-            <WrapItem key={dish.id}>
-              <Dish
-                dish={dish}
-                inCart={isInCart(dish)}
-                onOpen={openDetail(dish)}
-                onCartToggle={toggleCart(dish)}
-              />
-            </WrapItem>
-          )}
-        </SimpleGrid>
-      </Center>
+      <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
+        {dishes.map(dish =>
+          <WrapItem key={dish.id}>
+            <Dish
+              dish={dish}
+              inCart={isInCart(dish)}
+              onOpen={openDetail(dish)}
+              onCartToggle={toggleCart(dish)}
+            />
+          </WrapItem>
+        )}
+      </SimpleGrid>
       {selectedDish &&
         <DishDesktopModal
           dish={selectedDish}

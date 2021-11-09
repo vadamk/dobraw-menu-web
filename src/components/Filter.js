@@ -3,6 +3,8 @@ import { Tag, TagLabel, TagLeftIcon } from "@chakra-ui/tag";
 import { Wrap } from "@chakra-ui/layout";
 import { CheckIcon } from "@chakra-ui/icons";
 
+import useTags from '../hooks/useTags'
+
 const AppTag = ({ tag, isSelected, onSelect }) =>
   <Tag
     key={tag.id}
@@ -22,7 +24,9 @@ const ALL_TAG = {
   name: "Все"
 };
 
-const Filter = ({ tags, selectedTagIds = [], onSelect, onClear }) => {
+const Filter = ({ selectedTagIds = [], onSelect, onClear }) => {
+  const tags = useTags()
+
   const isSelected = tag => {
     return selectedTagIds.includes(tag.id);
   };
