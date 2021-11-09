@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+
 import App from './App';
+import SWRProvider from './core/SWRProvider';
 import reportWebVitals from './reportWebVitals';
 
-import { ChakraProvider, extendTheme } from "@chakra-ui/react"
-import SWRProvider from './SWRProvider';
+import './styles/index.css';
 
 const theme = extendTheme({
   config: {

@@ -14,7 +14,7 @@ import {
   MdOutlineShoppingCart
 } from "react-icons/md";
 
-import { getDishThumbnailURL } from "../utils";
+import { getDishThumbnailURL } from "../core/utils";
 
 const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
   return (

@@ -38,7 +38,7 @@ const Filter = ({ selectedTagIds = [], onSelect, onClear }) => {
         isSelected={!selectedTagIds.length}
         onSelect={onClear}
       />
-      {tags.map(tag =>
+      {tags.items.map(tag =>
         <AppTag
           key={tag.id}
           tag={tag}

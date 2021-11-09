@@ -19,7 +19,7 @@ function App() {
   const dishes = useDishes({ tagIds: selectedTagIds })
 
   const cartDishes = React.useMemo(
-    () => dishes.filter(d => cartDishIds.includes(d.id)),
+    () => dishes.items.filter(d => cartDishIds.includes(d.id)),
     [cartDishIds, dishes]
   );
 
@@ -74,7 +74,7 @@ function App() {
         onClear={clearFilter}
       />
       <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
-        {dishes.map(dish =>
+        {dishes.items.map(dish =>
           <WrapItem key={dish.id}>
             <Dish
               dish={dish}
