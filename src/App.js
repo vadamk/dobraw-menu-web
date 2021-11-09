@@ -1,5 +1,5 @@
 import React from "react";
-import { Center, Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
+import { Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
 
 import Dish from "./components/Dish";
 import CartButton from "./components/CartButton";
