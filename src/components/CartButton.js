@@ -2,7 +2,7 @@ import React from "react";
 import { IconButton } from "@chakra-ui/button";
 import Icon from '@chakra-ui/icon';
 
-import { FiShoppingBag } from "react-icons/fi";
+import { MdOutlineShoppingCart } from "react-icons/md";
 import { Box } from '@chakra-ui/layout';
 import { Tag } from '@chakra-ui/tag';
 
@@ -18,7 +18,7 @@ const CartButton = ({ count, onClick }) => {
         h="64px"
         rounded="full"
         colorScheme="orange"
-        icon={<Icon fontSize="2xl" as={FiShoppingBag} />}
+        icon={<Icon fontSize="2xl" as={MdOutlineShoppingCart} />}
         onClick={onClick}
       />
       {count > 0 && (

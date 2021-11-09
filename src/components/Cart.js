@@ -14,9 +14,11 @@ import {
   useToast,
   useColorMode,
   useMediaQuery,
+  Tooltip,
 } from "@chakra-ui/react"
 
-import { CloseIcon, SmallCloseIcon, CopyIcon } from '@chakra-ui/icons'
+import { SmallCloseIcon, CopyIcon } from '@chakra-ui/icons'
+import { MdOutlineRemoveShoppingCart } from 'react-icons/md'
 
 const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   const toast = useToast()
@@ -56,7 +58,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
         <DrawerOverlay bg={isSmallDevice ? "white" : undefined} />
         <DrawerContent>
           <DrawerHeader fontSize="2xl">Корзина</DrawerHeader>
-          <DrawerCloseButton />
+          <DrawerCloseButton top="20px" />
           <DrawerBody bg={colorMode === "light" ? "gray.50" : "gray.800"} className="static-scrollbar">
             {!dishes.length && (
               <Text p={4} textAlign="center" color="gray">В корзине нет ни одного блюда</Text>
@@ -89,10 +91,22 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
               </Stack>
               
               <Stack direction="row-reverse">
-                <Button isDisabled={!dishes.length} colorScheme="red" leftIcon={<CloseIcon />} onClick={onClean}>
-                  Очистить
+                <Tooltip label="Очистить корзину">
+                  <IconButton
+                    isDisabled={!dishes.length}
+                    colorScheme="red"
+                    icon={<MdOutlineRemoveShoppingCart fontSize="18px" />}
+                    onClick={onClean}
+                  />
+                </Tooltip>
+                <Button
+                  isDisabled={!dishes.length}
+                  colorScheme="green"
+                  leftIcon={<CopyIcon />} mr={2}
+                  onClick={copyInvitationLink}
+                >
+                  Скопировать
                 </Button>
-                <Button isDisabled={!dishes.length} colorScheme="green" leftIcon={<CopyIcon />} mr={2} onClick={copyInvitationLink}>Скопировать</Button>
               </Stack>
             </Stack>
           </DrawerFooter>

@@ -16,19 +16,11 @@ function App() {
   const cartModal = useDisclosure();
 
   const cartDishes = React.useMemo(
-    () => {
-      return data.filter(d => cartDishIds.includes(d.id));
-    },
+    () => data.filter(d => cartDishIds.includes(d.id)),
     [cartDishIds]
   );
 
-  const cleanCart = React.useCallback(
-    dish => {
-      setCartDishIds([]);
-      cartModal.onClose();
-    },
-    [cartModal]
-  );
+  const cleanCart = React.useCallback(dish => setCartDishIds([]), []);
 
   const toggleCart = React.useCallback(
     dish => () => {
@@ -43,9 +35,7 @@ function App() {
   );
 
   const openDetail = React.useCallback(
-    dish => () => {
-      setSelectedDish(val => (val ? null : dish));
-    },
+    dish => () => setSelectedDish(val => (val ? null : dish)),
     []
   );
 
@@ -65,12 +55,9 @@ function App() {
     setSelectedDish(null);
   }, []);
 
-  const isInCart = React.useCallback(
-    dish => {
-      return cartDishIds.includes(dish.id);
-    },
-    [cartDishIds]
-  );
+  const isInCart = React.useCallback(dish => cartDishIds.includes(dish.id), [
+    cartDishIds
+  ]);
 
   const clearFilter = React.useCallback(() => {
     setSelectedTagIds([]);
