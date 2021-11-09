@@ -53,7 +53,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
           <DrawerCloseButton />
           <DrawerBody className="static-scrollbar">
             {!dishes.length && (
-              <Text p={4} textAlign="center" color="gray">В корзине нет ниодного блюда</Text>
+              <Text p={4} textAlign="center" color="gray">В корзине нет ни одного блюда</Text>
             )}
             {dishes.map(dish => (
               <Box key={dish.id} py={4}>
