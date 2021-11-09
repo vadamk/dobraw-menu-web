@@ -7,27 +7,12 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
+import useMinHeight from "../hooks/useMinHeight";
 import Dish from "./Dish";
 
 const DishDesktopModal = ({ dish, inCart, onClose, onCartToggle }) => {
-  const [minHeight, setMinHeight] = React.useState(localStorage.getItem("minHeight") || 0);
   const [isSmallDevice] = useMediaQuery("(max-width: 768px)")
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setMinHeight(val => {
-        if (window.innerHeight > val) {
-          localStorage.setItem("minHeight", window.innerHeight)
-          return window.innerHeight
-        }
-
-        return val
-      })
-    }
-
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, []);
+  const [minHeight] = useMinHeight()
 
   return (
     <Modal size={isSmallDevice ? "full" : "lg"} isOpen={Boolean(dish)} onClose={onClose}>
@@ -36,6 +21,7 @@ const DishDesktopModal = ({ dish, inCart, onClose, onCartToggle }) => {
         m={0}
         borderRadius="0"
         containerProps={{ minH: minHeight + "px" }}
+        className="static-scrollbar"
       >
         <ModalCloseButton zIndex={1} />
         <Dish

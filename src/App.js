@@ -77,12 +77,9 @@ function App() {
     [cartDishIds]
   );
 
-  const handleClearFilter = React.useCallback(
-    () => {
-      setSelectedTagIds([])
-    },
-    []
-  );
+  const handleClearFilter = React.useCallback(() => {
+    setSelectedTagIds([]);
+  }, []);
 
   return (
     <Container p={4} maxW="container.xl">
@@ -95,11 +92,7 @@ function App() {
       <Center>
         <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
           {data.map(dish =>
-            <WrapItem
-              key={dish.id}
-              maxW="sm"
-              layoutId={dish.id}
-            >
+            <WrapItem key={dish.id} maxW="sm">
               <Dish
                 dish={dish}
                 inCart={isSelected(dish)}

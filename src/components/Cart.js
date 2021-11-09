@@ -12,13 +12,15 @@ import {
   IconButton,
   Stack,
   useToast,
+  useColorMode,
 } from "@chakra-ui/react"
 
 import { CloseIcon, CopyIcon } from '@chakra-ui/icons'
 
 const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   const toast = useToast()
-  
+  const { colorMode } = useColorMode()
+
   const copyInvitationLink = React.useCallback(() => {
 
     if (navigator.clipboard) {
@@ -42,8 +44,10 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
     }
   }, [dishes, onClose, toast]);
 
-  const total = dishes.reduce((sum, dish) => Math.round((sum + dish.price) * 100) / 100, 0)
-  
+  const total = dishes.reduce((sum, dish) => {
+    return Math.round((sum + dish.price) * 100) / 100
+  }, 0)
+
   return (
     <>
       <Drawer size="sm" isOpen={isOpen} onClose={onClose}>
@@ -51,7 +55,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
         <DrawerContent>
           <DrawerHeader fontSize="2xl">Корзина</DrawerHeader>
           <DrawerCloseButton />
-          <DrawerBody className="static-scrollbar">
+          <DrawerBody bg={colorMode === "light" ? "gray.100" : "gray.800"} className="static-scrollbar">
             {!dishes.length && (
               <Text p={4} textAlign="center" color="gray">В корзине нет ни одного блюда</Text>
             )}

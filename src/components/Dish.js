@@ -12,23 +12,21 @@ import { Button } from "@chakra-ui/button";
 
 const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
   return (
-    <Stack pb={4} w="full" layoutId={`body-${dish.id}`}>
+    <Stack pb={4} w="full">
       <AspectRatio
         ratio={1}
         cursor="pointer"
-        layoutId={`aspectRatio-${dish.id}`}
         onClick={onOpen}
         pointerEvents={isDetail ? "none" : "auto"}
       >
         <Image
           w="full"
-          layoutId={`img-${dish.id}`}
           src={dish.imageUrl}
           alt={dish.title}
           userSelect="none"
         />
       </AspectRatio>
-      <Box layoutId={`price-container-${dish.id}`}>
+      <Box>
         <Stack
           spacing="1"
           direction="row"
@@ -46,7 +44,6 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
           </Button>
         </Stack>
         <Box
-          layoutId={`title-${dish.id}`}
           cursor="pointer"
           px={isDetail && 6}
           pt={isDetail ? 6 : 4}
