@@ -10,15 +10,10 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import Filter from "./components/Filter";
 
 function App() {
-  const [selectedDishId, setSelectedDishId] = React.useState(null);
+  const [selectedDish, setSelectedDish] = React.useState(null);
   const [cartDishIds, setCartDishIds] = React.useState([]);
   const [selectedTagIds, setSelectedTagIds] = React.useState([]);
   const cartModal = useDisclosure();
-
-  const selectedDish = React.useMemo(
-    () => data.find(d => d.id === selectedDishId),
-    [selectedDishId]
-  );
 
   const cartDishes = React.useMemo(
     () => {
@@ -27,7 +22,7 @@ function App() {
     [cartDishIds]
   );
 
-  const handleClean = React.useCallback(
+  const cleanCart = React.useCallback(
     dish => {
       setCartDishIds([]);
       cartModal.onClose();
@@ -35,7 +30,7 @@ function App() {
     [cartModal]
   );
 
-  const handleCartToggle = React.useCallback(
+  const toggleCart = React.useCallback(
     dish => () => {
       setCartDishIds(
         val =>
@@ -47,14 +42,14 @@ function App() {
     []
   );
 
-  const handleSelect = React.useCallback(
+  const openDetail = React.useCallback(
     dish => () => {
-      setSelectedDishId(val => (val ? null : dish.id));
+      setSelectedDish(val => (val ? null : dish));
     },
     []
   );
 
-  const handleSelectTag = React.useCallback(
+  const selectFilterTag = React.useCallback(
     tag => () => {
       setSelectedTagIds(
         val =>
@@ -66,18 +61,18 @@ function App() {
     []
   );
 
-  const handleClose = React.useCallback(() => {
-    setSelectedDishId(null);
+  const detailClose = React.useCallback(() => {
+    setSelectedDish(null);
   }, []);
 
-  const isSelected = React.useCallback(
+  const isInCart = React.useCallback(
     dish => {
       return cartDishIds.includes(dish.id);
     },
     [cartDishIds]
   );
 
-  const handleClearFilter = React.useCallback(() => {
+  const clearFilter = React.useCallback(() => {
     setSelectedTagIds([]);
   }, []);
 
@@ -86,8 +81,8 @@ function App() {
       <Filter
         tags={dataTags}
         selectedTagIds={selectedTagIds}
-        onSelect={handleSelectTag}
-        onClear={handleClearFilter}
+        onSelect={selectFilterTag}
+        onClear={clearFilter}
       />
       <Center>
         <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
@@ -95,9 +90,9 @@ function App() {
             <WrapItem key={dish.id}>
               <Dish
                 dish={dish}
-                inCart={isSelected(dish)}
-                onOpen={handleSelect(dish)}
-                onCartToggle={handleCartToggle(dish)}
+                inCart={isInCart(dish)}
+                onOpen={openDetail(dish)}
+                onCartToggle={toggleCart(dish)}
               />
             </WrapItem>
           )}
@@ -106,14 +101,14 @@ function App() {
       {selectedDish &&
         <DishDesktopModal
           dish={selectedDish}
-          inCart={isSelected(selectedDish)}
-          onClose={handleClose}
-          onCartToggle={handleCartToggle(selectedDish)}
+          inCart={isInCart(selectedDish)}
+          onClose={detailClose}
+          onCartToggle={toggleCart(selectedDish)}
         />}
       <Cart
         dishes={cartDishes}
-        onRemove={handleCartToggle}
-        onClean={handleClean}
+        onRemove={toggleCart}
+        onClean={cleanCart}
         {...cartModal}
       />
       <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />

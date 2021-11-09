@@ -8,6 +8,7 @@ const AppTag = ({ tag, isSelected, onSelect }) =>
     key={tag.id}
     size="lg"
     colorScheme={isSelected ? "green" : "gray"}
+    cursor="pointer"
     onClick={onSelect}
   >
     {isSelected && <TagLeftIcon boxSize="12px" as={CheckIcon} />}
@@ -27,7 +28,7 @@ const Filter = ({ tags, selectedTagIds = [], onSelect, onClear }) => {
   };
 
   return (
-    <Wrap pb={6} spacing={3}>
+    <Wrap py={6} spacing={3}>
       <AppTag
         tag={ALL_TAG}
         isSelected={!selectedTagIds.length}

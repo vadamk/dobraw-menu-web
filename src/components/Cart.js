@@ -16,7 +16,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react"
 
-import { CloseIcon, CopyIcon } from '@chakra-ui/icons'
+import { CloseIcon, SmallCloseIcon, CopyIcon } from '@chakra-ui/icons'
 
 const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   const toast = useToast()
@@ -57,21 +57,21 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
         <DrawerContent>
           <DrawerHeader fontSize="2xl">Корзина</DrawerHeader>
           <DrawerCloseButton />
-          <DrawerBody bg={colorMode === "light" ? "gray.100" : "gray.800"} className="static-scrollbar">
+          <DrawerBody bg={colorMode === "light" ? "gray.50" : "gray.800"} className="static-scrollbar">
             {!dishes.length && (
               <Text p={4} textAlign="center" color="gray">В корзине нет ни одного блюда</Text>
             )}
             {dishes.map(dish => (
               <Box key={dish.id} py={4}>
                 <Stack direction="row" alignItems="flex-start">
-                  <Text>{dish.title}</Text>
-                  <Spacer />
                   <IconButton
                     size="xs"
-                    colorScheme="red"
-                    icon={<CloseIcon fontSize="xs" />}
+                    icon={<SmallCloseIcon fontSize="md" />}
                     onClick={onRemove(dish)}
                   />
+                  <Text fontWeight={600}>{dish.title}</Text>
+                  <Spacer />
+                  <Text minW="16">{dish.price} добра</Text>
                 </Stack>
               </Box>
             ))}
