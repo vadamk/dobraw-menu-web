@@ -23,11 +23,12 @@ const DishDesktopModal = ({ dish, inCart, onClose, onCartToggle }) => {
         containerProps={{ minH: minHeight + "px" }}
         className="static-scrollbar"
       >
-        <ModalCloseButton zIndex={1} />
+        <ModalCloseButton zIndex={1} color="white" />
         <Dish
           isDetail
           dish={dish}
           inCart={inCart}
+          onOpen={onClose}
           onCartToggle={onCartToggle}
         />
       </ModalContent>
