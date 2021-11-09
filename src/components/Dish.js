@@ -9,6 +9,7 @@ import {
   Text
 } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
+import { MdOutlineRemoveShoppingCart, MdOutlineShoppingCart } from "react-icons/md";
 
 const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
   return (
@@ -39,7 +40,11 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
           </Text>
           <Text fontSize="lg">добра</Text>
           <Spacer />
-          <Button colorScheme={inCart ? "red" : "green"} onClick={onCartToggle}>
+          <Button
+            colorScheme={inCart ? "red" : "green"}
+            leftIcon={inCart ? <MdOutlineRemoveShoppingCart /> : <MdOutlineShoppingCart />}
+            onClick={onCartToggle}
+          >
             {inCart ? "Убрать" : "В корзину"}
           </Button>
         </Stack>
