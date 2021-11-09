@@ -11,7 +11,7 @@ import useMinHeight from "../hooks/useMinHeight";
 import Dish from "./Dish";
 
 const DishDesktopModal = ({ dish, inCart, onClose, onCartToggle }) => {
-  const [isSmallDevice] = useMediaQuery("(max-width: 768px)")
+  const [isSmallDevice] = useMediaQuery("(max-width: 448px)")
   const [minHeight] = useMinHeight()
 
   return (

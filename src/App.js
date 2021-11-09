@@ -92,7 +92,7 @@ function App() {
       <Center>
         <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
           {data.map(dish =>
-            <WrapItem key={dish.id} maxW="sm">
+            <WrapItem key={dish.id}>
               <Dish
                 dish={dish}
                 inCart={isSelected(dish)}

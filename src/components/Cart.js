@@ -13,6 +13,7 @@ import {
   Stack,
   useToast,
   useColorMode,
+  useMediaQuery,
 } from "@chakra-ui/react"
 
 import { CloseIcon, CopyIcon } from '@chakra-ui/icons'
@@ -20,6 +21,7 @@ import { CloseIcon, CopyIcon } from '@chakra-ui/icons'
 const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   const toast = useToast()
   const { colorMode } = useColorMode()
+  const [isSmallDevice] = useMediaQuery("(max-width: 448px)")
 
   const copyInvitationLink = React.useCallback(() => {
 
@@ -51,7 +53,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
   return (
     <>
       <Drawer size="sm" isOpen={isOpen} onClose={onClose}>
-        <DrawerOverlay />
+        <DrawerOverlay bg={isSmallDevice ? "white" : undefined} />
         <DrawerContent>
           <DrawerHeader fontSize="2xl">Корзина</DrawerHeader>
           <DrawerCloseButton />
@@ -83,7 +85,7 @@ const Cart = ({ isOpen, dishes, onRemove, onClean, onClose }) => {
                 <Text fontSize="4xl" lineHeight="1">
                   {total}
                 </Text>
-                <Text fontSize="lg">добра</Text>
+                <Text fontSize="md">добра</Text>
               </Stack>
               
               <Stack direction="row-reverse">
