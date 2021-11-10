@@ -117,15 +117,6 @@ function App() {
             />
           </Suspense>
         </Center>}
-      {selectedDish &&
-        <Suspense fallback={null}>
-          <DishDesktopModal
-            dish={selectedDish}
-            inCart={isInCart(selectedDish)}
-            onClose={detailClose}
-            onCartToggle={toggleCart(selectedDish)}
-          />
-        </Suspense>}
       <Suspense fallback={null}>
         <Cart
           dishes={cartDishes}
@@ -137,6 +128,15 @@ function App() {
       <Suspense fallback={null}>
         <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />
       </Suspense>
+      {selectedDish &&
+        <Suspense fallback={null}>
+          <DishDesktopModal
+            dish={selectedDish}
+            inCart={isInCart(selectedDish)}
+            onClose={detailClose}
+            onCartToggle={toggleCart(selectedDish)}
+          />
+        </Suspense>}
     </Container>
   );
 }
