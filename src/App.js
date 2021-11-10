@@ -1,16 +1,18 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Center, Container, SimpleGrid, WrapItem } from "@chakra-ui/layout";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Spinner } from "@chakra-ui/react";
 
-import Dish from "./components/Dish";
-import CartButton from "./components/CartButton";
-import Cart from "./components/Cart";
-import DishDesktopModal from "./components/DishDesktopModal";
-import Filter from "./components/Filter";
-
 import useDishes from "./hooks/useDishes";
-import Pagination from "./components/Pagination";
+
+const Dish = React.lazy(() => import("./components/Dish"));
+const CartButton = React.lazy(() => import("./components/CartButton"));
+const Cart = React.lazy(() => import("./components/Cart"));
+const DishDesktopModal = React.lazy(() =>
+  import("./components/DishDesktopModal")
+);
+const Filter = React.lazy(() => import("./components/Filter"));
+const Pagination = React.lazy(() => import("./components/Pagination"));
 
 function App() {
   const [selectedDish, setSelectedDish] = React.useState(null);
@@ -46,7 +48,7 @@ function App() {
 
   const selectFilterTag = React.useCallback(
     tag => () => {
-      setCurrentPage(0)
+      setCurrentPage(0);
       setSelectedTagIds(
         val =>
           !val.includes(tag.id)
@@ -75,15 +77,17 @@ function App() {
     setCurrentPage(selected);
   }, []);
 
-  const pagesCount = Math.ceil(dishes.count / 5)
+  const pagesCount = Math.ceil(dishes.count / 5);
 
   return (
     <Container p={4} maxW="container.xl">
-      <Filter
-        selectedTagIds={selectedTagIds}
-        onSelect={selectFilterTag}
-        onClear={clearFilter}
-      />
+      <Suspense fallback={null}>
+        <Filter
+          selectedTagIds={selectedTagIds}
+          onSelect={selectFilterTag}
+          onClear={clearFilter}
+        />
+      </Suspense>
       {dishes.isValidating &&
         !dishes.items.length &&
         <Center py={6}>
@@ -92,38 +96,47 @@ function App() {
       <SimpleGrid columns={[1, null, 2, 3]} spacing={6}>
         {dishes.items.map(dish =>
           <WrapItem key={dish.id}>
-            <Dish
-              dish={dish}
-              inCart={isInCart(dish)}
-              onOpen={openDetail(dish)}
-              onCartToggle={toggleCart(dish)}
-            />
+            <Suspense fallback={null}>
+              <Dish
+                dish={dish}
+                inCart={isInCart(dish)}
+                onOpen={openDetail(dish)}
+                onCartToggle={toggleCart(dish)}
+              />
+            </Suspense>
           </WrapItem>
         )}
       </SimpleGrid>
-      {pagesCount > 1 && (
+      {pagesCount > 1 &&
         <Center py={6}>
-          <Pagination
-            page={currentPage}
-            count={pagesCount}
-            onChange={handlePageChange}
-          />
-        </Center>
-      )}
+          <Suspense fallback={null}>
+            <Pagination
+              page={currentPage}
+              count={pagesCount}
+              onChange={handlePageChange}
+            />
+          </Suspense>
+        </Center>}
       {selectedDish &&
-        <DishDesktopModal
-          dish={selectedDish}
-          inCart={isInCart(selectedDish)}
-          onClose={detailClose}
-          onCartToggle={toggleCart(selectedDish)}
-        />}
-      <Cart
-        dishes={cartDishes}
-        onRemove={toggleCart}
-        onClean={cleanCart}
-        {...cartModal}
-      />
-      <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />
+        <Suspense fallback={null}>
+          <DishDesktopModal
+            dish={selectedDish}
+            inCart={isInCart(selectedDish)}
+            onClose={detailClose}
+            onCartToggle={toggleCart(selectedDish)}
+          />
+        </Suspense>}
+      <Suspense fallback={null}>
+        <Cart
+          dishes={cartDishes}
+          onRemove={toggleCart}
+          onClean={cleanCart}
+          {...cartModal}
+        />
+      </Suspense>
+      <Suspense fallback={null}>
+        <CartButton count={cartDishes.length} onClick={cartModal.onOpen} />
+      </Suspense>
     </Container>
   );
 }

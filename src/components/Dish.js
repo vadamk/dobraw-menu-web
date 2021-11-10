@@ -34,7 +34,7 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
             </Center>
           )}
           src={getDishThumbnailURL(dish)}
-          alt={dish.title}
+          alt={dish.name}
           pointerEvents={isDetail ? "none" : "auto"}
           userSelect="none"
         />
