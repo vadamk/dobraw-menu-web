@@ -6,9 +6,11 @@ import {
   Heading,
   Spacer,
   Stack,
-  Text
+  Text,
+  Center
 } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
+import { Spinner } from "@chakra-ui/react";
 import {
   MdOutlineRemoveShoppingCart,
   MdOutlineShoppingCart
@@ -23,12 +25,17 @@ const Dish = ({ dish, isDetail, isSelected, inCart, onOpen, onCartToggle }) => {
         ratio={1}
         cursor="pointer"
         onClick={onOpen}
-        pointerEvents={isDetail ? "none" : "auto"}
       >
         <Image
-          w="full"
+          fit="object-fit"
+          fallback={(
+            <Center>
+              <Spinner color="gray.500" />
+            </Center>
+          )}
           src={getDishThumbnailURL(dish)}
           alt={dish.title}
+          pointerEvents={isDetail ? "none" : "auto"}
           userSelect="none"
         />
       </AspectRatio>

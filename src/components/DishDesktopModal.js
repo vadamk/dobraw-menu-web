@@ -16,7 +16,6 @@ const DishDesktopModal = ({ dish, inCart, onClose, onCartToggle }) => {
   const [isSmallDevice] = useMediaQuery("(max-width: 448px)")
   const [minHeight] = useMinHeight()
   const [{ y }, api] = useSpring(() => ({ y: 0 }))
-  console.log('y: ', y);
 
   React.useEffect(() => {
     if (y > 100) {

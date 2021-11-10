@@ -27,9 +27,15 @@ function SWRProvider({ children }) {
         fetcher: apiService.get,
         provider: localStorageProvider,
         revalidateOnFocus: false,
+        errorRetryCount: 2,
         onError: (error) => {
           console.log(error)
-          toast(error.message, { appearance: 'error' })
+          toast({
+            title: error.message,
+            status: "error",
+            duration: 2000,
+            isClosable: true
+          });
         },
       }}
     >
